@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+typedef long long ll;
+#define inf 100000000000
+#define pb  push_back
+//--------------- {@ author Ahmed_Hussieny } -------------------------
+void fast(){
+	ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+}
+
+
+// int arr[30];
+// ll n,m,k,t;
+// int arr[100005];
+// vector<char> G[100005];
+vector<ll> G[100003];
+
+
+ll ans=0;
+int dx[4]={1,-1,0,0};
+int dy[4]={0,0,1,-1};
+string s1,s2;
+int n,m,z,a,b;
+vector<vector<pair<int,int>>>g;
+bool v[500003];
+ll cost[100001];
+int dijkstra(int a,int b){
+	 priority_queue<pair<ll,int> >q;
+	q.push(make_pair(0,a));
+	for (int i = 1; i <= n; ++i)v[i]=0;
+	for (int i = 1; i <= n; ++i)cost[i]=-1e18;
+	cost[a]=0;
+	while(!q.empty()){
+		int currentnode=q.top().second;
+		int currentcost=q.top().first;
+		q.pop();
+		if(v[currentnode])continue;
+		v[currentnode]=true;
+		if(currentnode==b){
+			return -currentcost;
+		}
+		for (int i = 0; i < (int)g[currentnode].size(); ++i)
+		{
+			int newnode=g[currentnode][i].first;
+			int edgeweight=-g[currentnode][i].second;
+
+			if(edgeweight+currentcost>cost[newnode]){
+				cost[newnode]=edgeweight+currentcost;
+				q.push(make_pair(cost[newnode],newnode));
+			}
+		}
+	}
+	return -1;
+	
+	}
+int solve(){
+	cin>>n>>m;
+	g.clear();
+		g.resize(n+1);
+	for (int i = 0; i < m; ++i)
+	{
+		int x,y,z;
+		cin>>x>>y>>z;
+		g[x].pb(make_pair(y,z));
+	}
+	cin>>a>>b;
+	ll ans=dijkstra(a,b);
+        if(ans==-1)cout<<"NO\n";
+        else cout<<ans<<endl;
+    return 0;
+}
+
+
+int main() { 
+fast();
+#ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+#endif
+  ll t;
+
+   cin>>t;
+   while (t--) {
+    solve();
+   }
+    return 0;
+}
